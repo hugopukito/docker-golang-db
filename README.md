@@ -1,4 +1,4 @@
-# Dockerize
+# Dockerize back-end with databases
 
 ## Docker for golang + databases
 
