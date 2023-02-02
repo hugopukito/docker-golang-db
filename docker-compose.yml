@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_DATABASE: "docker_db"
+      MYSQL_USER: "user1"
+      MYSQL_PASSWORD: "user1"
+    networks:
+      - default
+    ports:
+      - "3307:3306"
+
+  redis:
+    image: redis:6.0
+    ports:
+      - "6380:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5673:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    ports:
+      - "8095:8080"
+    depends_on:
+      db:
+        condition: service_completed_successfully
+      redis:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_completed_successfully
+      # - db
+      # - redis
+      # - rabbitmq
+    networks:
+      - default
