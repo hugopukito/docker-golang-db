@@ -1,14 +1,12 @@
-version: '3.7'
+version: '3.9'
 services:
-  db:
+  mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: "secret"
       MYSQL_DATABASE: "docker_db"
       MYSQL_USER: "user1"
       MYSQL_PASSWORD: "user1"
-    networks:
-      - default
     ports:
       - "3307:3306"
 
@@ -28,18 +26,11 @@ services:
   app:
     build:
       context: .
-      dockerfile: app.Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "8095:8080"
+      - "8095:8095"
     depends_on:
-      db:
-        condition: service_completed_successfully
-      redis:
-        condition: service_completed_successfully
-      rabbitmq:
-        condition: service_completed_successfully
-      # - db
-      # - redis
-      # - rabbitmq
-    networks:
-      - default
+      - mysql
+      - redis
+      - rabbitmq
+    entrypoint: [ "/app/wait-for.sh", "mysql:3306", "redis:6379", "rabbitmq:5672", "--", "/app/main"]
