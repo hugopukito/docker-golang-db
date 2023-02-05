@@ -12,16 +12,6 @@ Using docker-compose.yml for three databases and go app service
 
 Install docker, docker compose plugin
 
-### Persistency
-
-Create directories for volumes: 
-
-```bash
-mkdir ~/devops/data/mysql
-mkdir ~/devops/data/redis
-mkdir ~/devops/data/rabbitmq
-```
-
 ## Usage
 
 ```bash
