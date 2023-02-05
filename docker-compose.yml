@@ -9,11 +9,15 @@ services:
       MYSQL_PASSWORD: "user1"
     ports:
       - "3307:3306"
+    volumes:
+      - ~/devops/data/mysql:/var/lib/mysql
 
   redis:
     image: redis:6.0
     ports:
       - "6380:6379"
+    volumes:
+      - ~/devops/data/redis:/var/lib/redis
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -22,6 +26,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - ~/devops/data/rabbitmq:/var/lib/rabbitmq
 
   app:
     build:
