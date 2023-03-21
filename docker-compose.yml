@@ -17,17 +17,20 @@ services:
     ports:
       - "6380:6379"
     volumes:
-      - ./data/redis:/var/lib/redis
+      - ./data/redis:/data
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5673:5672"
+      - "15673:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    hostname: "devops-go"
     volumes:
       - ./data/rabbitmq:/var/lib/rabbitmq
+      - ./data/rabbitmq_mnesia:/var/lib/rabbitmq/mnesia
 
   app:
     build:
